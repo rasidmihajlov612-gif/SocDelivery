@@ -27,23 +27,26 @@
   .orb.d{width:160px;height:160px;background:#2ea35c;bottom:-50px;right:18%;animation:driftA 18s ease-in-out infinite 1.2s, pulse 6s ease-in-out infinite}
   /* редкая яркая вспышка */
   .flash{position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#5effa0,transparent 70%);filter:blur(30px);mix-blend-mode:screen;opacity:0}
-  .flash.f1{top:18%;left:30%;animation:flash 11s ease-in-out infinite 2s}
-  .flash.f2{top:60%;right:22%;animation:flash 13s ease-in-out infinite 7s}
-  .flash.f3{top:40%;left:55%;animation:flash 17s ease-in-out infinite 12s}
-  @keyframes pulse{0%,100%{opacity:.07}50%{opacity:.20}}
+  .flash.f1{top:18%;left:30%;animation:flash 6s ease-in-out infinite 1s}
+  .flash.f2{top:60%;right:22%;animation:flash 7s ease-in-out infinite 3s}
+  .flash.f3{top:40%;left:55%;animation:flash 9s ease-in-out infinite 5s}
+  @keyframes pulse{0%,100%{opacity:.22}50%{opacity:.5}}
   @keyframes driftA{0%,100%{transform:translate(0,0)}50%{transform:translate(46px,34px)}}
   @keyframes driftB{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,40px)}}
   @keyframes driftC{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-36px)}}
-  @keyframes flash{0%,90%,100%{opacity:0;transform:scale(.6)}94%{opacity:.5;transform:scale(1)}97%{opacity:.15;transform:scale(1.1)}}
+  @keyframes flash{0%,85%,100%{opacity:0;transform:scale(.6)}90%{opacity:.85;transform:scale(1)}95%{opacity:.3;transform:scale(1.15)}}
   @media(prefers-reduced-motion:reduce){.orb,.flash{animation:none}}
   h1,h2,h3,.u{font-family:'Unbounded',sans-serif}
 
   /* top */
-  .top{display:flex;align-items:center;padding:16px 2px 6px}
-  .brand{font-family:'Unbounded';font-weight:900;font-size:20px;letter-spacing:-.3px}
+  .top{display:flex;align-items:center;justify-content:center;padding:18px 2px 8px}
+  .brand{font-family:'Unbounded';font-weight:900;font-size:22px;letter-spacing:-.3px}
   .brand .dot{color:var(--green2)}
-  .addr{margin-left:auto;font-family:'JetBrains Mono';font-size:11px;color:var(--muted);text-align:right;line-height:1.35}
-  .addr b{color:#fff;display:block;font-size:12px;font-weight:700}
+
+  /* ссылка на канал */
+  .chlink{display:flex;align-items:center;justify-content:center;gap:8px;margin:20px 2px 4px;padding:13px;background:var(--card);border-radius:14px;color:#cfe0d6;font-family:'JetBrains Mono';font-size:13px;cursor:pointer;transition:transform .12s}
+  .chlink:active{transform:scale(.98)}
+  .chlink b{color:var(--green2);font-weight:700}
 
   .hello{font-family:'Unbounded';font-weight:700;font-size:24px;letter-spacing:-.5px;margin:14px 2px 2px}
   .hello span{color:var(--green2)}
@@ -51,18 +54,18 @@
 
   .sechead{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:18px 2px 12px}
 
-  /* restaurant cards */
-  .rcard{background:var(--card);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .12s}
-  .rcard:active{transform:scale(.985)}
-  .rphoto{height:150px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
-  .rphoto .fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.75))}
-  .rphoto .init{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:900;font-size:64px;color:rgba(255,255,255,.10)}
-  .rphoto .tag{position:relative;margin:0 0 12px 14px;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);color:#fff;font-family:'JetBrains Mono';font-size:11px;padding:5px 11px;border-radius:999px}
-  .rbody{padding:13px 16px 16px;display:flex;align-items:center;gap:10px}
-  .rname{font-family:'Unbounded';font-weight:700;font-size:18px;letter-spacing:-.3px}
-  .rmeta{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);margin-top:4px;display:flex;gap:10px}
+  /* restaurant grid — компактные плитки, всё на одном экране */
+  .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .rcard{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .12s}
+  .rcard:active{transform:scale(.97)}
+  .rphoto{height:84px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
+  .rphoto .fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.6))}
+  .rphoto .init{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:900;font-size:38px;color:rgba(255,255,255,.12)}
+  .rphoto .tag{position:relative;margin:0 0 7px 9px;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);color:#fff;font-family:'JetBrains Mono';font-size:9px;padding:3px 8px;border-radius:999px}
+  .rbody{padding:10px 11px 12px}
+  .rname{font-family:'Unbounded';font-weight:700;font-size:14px;letter-spacing:-.3px;line-height:1.15}
+  .rmeta{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);margin-top:5px;display:flex;gap:8px;flex-wrap:wrap}
   .rmeta .st{color:var(--green2);font-weight:700}
-  .rgo{margin-left:auto;color:var(--muted);font-size:22px}
 
   /* restaurant page */
   .back{display:inline-flex;align-items:center;gap:7px;background:var(--card);padding:9px 15px;border-radius:999px;font-family:'JetBrains Mono';font-size:12px;color:#b9c2bc;margin:10px 0 4px}
@@ -142,14 +145,14 @@
 <div class="wrap">
   <div class="top">
     <div class="brand">SOC<span class="dot">°</span> delivery</div>
-    <div class="addr">Доставка<b>Олёкминск</b></div>
   </div>
 
   <div id="home">
     <div class="hello">Что закажем <span>сегодня</span>?</div>
     <div class="helsub">Заведения Олёкминска · доставка 30–40 минут</div>
-    <div class="sechead">Заведения · порядок случайный 🔀</div>
-    <div id="rlist"></div>
+    <div class="sechead">Заведения</div>
+    <div id="rlist" class="rgrid"></div>
+    <div class="chlink" onclick="openChannel()">📣 Новости и афиша SOC° — <b>@SocEvents</b></div>
   </div>
 
   <div id="menu" style="display:none">
@@ -237,6 +240,9 @@ const FEE=149, FREE_FROM=1500;
 
 /* ---------------- STATE ---------------- */
 let curStore=null, curCat='all', cart={}, cartStore=null, sheetOpen=false, pay='card';
+let form={}, formReady=false;
+function ensureForm(){ if(!formReady){ form={name:(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''), phone:'', addr:'Олёкминск, ', note:''}; formReady=true; } }
+function openChannel(){ const u='https://t.me/SocEvents'; haptic(); if(tg&&tg.openTelegramLink){tg.openTelegramLink(u);} else {window.open(u,'_blank');} }
 
 /* ---------------- HELPERS ---------------- */
 const $=id=>document.getElementById(id);
@@ -246,6 +252,7 @@ const storeOf=id=>STORES.find(s=>s.id===id);
 const cnt=()=>Object.values(cart).reduce((a,b)=>a+b,0);
 const total=()=>Object.entries(cart).reduce((a,[id,q])=>a+prod(+id).p*q,0);
 const letter=s=>(s||'?').trim().replace(/[«"]/g,'').charAt(0).toUpperCase();
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
 function toast(t){const e=$('toast');e.innerHTML=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2200);}
 function confirmSwap(msg,cb){ if(tg&&tg.showConfirm){tg.showConfirm(msg,ok=>{if(ok)cb();});} else { if(confirm(msg))cb(); } }
 function photo(img,cov,cls,init){
@@ -254,9 +261,8 @@ function photo(img,cov,cls,init){
 }
 
 /* ---------------- HOME ---------------- */
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function renderHome(){
-  $('rlist').innerHTML=shuffle(STORES).map(s=>`
+  $('rlist').innerHTML=STORES.map(s=>`
     <div class="rcard" onclick="openStore('${s.id}')">
       <div class="rphoto" style="${s.img?`background-image:url('${s.img}')`:`background:radial-gradient(120% 120% at 25% 15%, ${s.cov}, #0c0e0c)`}">
         ${s.img?'':`<div class="init">${letter(s.name)}</div>`}
@@ -264,11 +270,8 @@ function renderHome(){
         <div class="tag">${s.tag}</div>
       </div>
       <div class="rbody">
-        <div>
-          <div class="rname">${s.name}</div>
-          <div class="rmeta"><span class="st">★ ${s.rating}</span><span>${s.time} мин</span><span>от ${s.min} ₽</span></div>
-        </div>
-        <div class="rgo">→</div>
+        <div class="rname">${s.name}</div>
+        <div class="rmeta"><span class="st">★ ${s.rating}</span><span>${s.time} мин</span></div>
       </div>
     </div>`).join('');
 }
@@ -321,7 +324,7 @@ function chg(id,d){const p=prod(id);haptic();
 function afterChg(){if($('menu').style.display!=='none')renderMenu();if(sheetOpen)renderSheet();updateNav();}
 
 /* ---------------- SHEET ---------------- */
-function openSheet(){if(cnt()===0)return;haptic();sheetOpen=true;renderSheet();
+function openSheet(){if(cnt()===0)return;haptic();ensureForm();sheetOpen=true;renderSheet();
   $('sheet-bg').classList.add('on');$('sheet').classList.add('on');updateNav();}
 function closeSheet(){sheetOpen=false;$('sheet-bg').classList.remove('on');$('sheet').classList.remove('on');updateNav();}
 function renderSheet(){
@@ -337,10 +340,10 @@ function renderSheet(){
     :(sub<FREE_FROM?`<div class="hint" style="color:var(--muted)">До бесплатной доставки ${money(FREE_FROM-sub)}</div>`:'');
   $('sheet-title').textContent=st.name;
   $('sheet-body').innerHTML=`${items}${hint}
-    <input class="field" id="f-name" placeholder="Имя" value="${tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''}">
-    <input class="field" id="f-phone" placeholder="Телефон" inputmode="tel">
-    <input class="field" id="f-addr" placeholder="Адрес доставки" value="Олёкминск, ">
-    <input class="field" id="f-note" placeholder="Комментарий курьеру (необязательно)">
+    <input class="field" id="f-name" placeholder="Имя" value="${esc(form.name)}" oninput="form.name=this.value">
+    <input class="field" id="f-phone" placeholder="Телефон" inputmode="tel" value="${esc(form.phone)}" oninput="form.phone=this.value">
+    <input class="field" id="f-addr" placeholder="Адрес доставки" value="${esc(form.addr)}" oninput="form.addr=this.value">
+    <input class="field" id="f-note" placeholder="Комментарий курьеру (необязательно)" value="${esc(form.note)}" oninput="form.note=this.value">
     <div class="pay"><button class="${pay==='card'?'on':''}" onclick="setPay('card')">💳 Картой</button>
       <button class="${pay==='cash'?'on':''}" onclick="setPay('cash')">💵 Наличными</button></div>
     <div class="summary"><div class="r"><span>Блюда</span><span>${money(sub)}</span></div>
@@ -379,6 +382,7 @@ function placeOrder(){
     items:Object.entries(cart).map(([id,q])=>({id:+id,name:prod(+id).n,qty:q,price:prod(+id).p})),
     name, phone, addr, note:($('f-note')?.value||'').trim(), pay, subtotal:sub, fee, total:sub+fee};
   notify('success');
+  formReady=false;
   if(inTG && tg.sendData){ tg.sendData(JSON.stringify(order)); return; }
   const oid='#'+Math.floor(2000+Math.random()*8000);
   cart={};cartStore=null;sheetOpen=false;
