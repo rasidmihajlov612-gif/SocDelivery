@@ -15,10 +15,30 @@
   html,body{margin:0;background:var(--bg);color:var(--ink)}
   body{font-family:'Inter',sans-serif;padding-bottom:30px;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer;border:none;color:inherit}
-  .wrap{max-width:600px;margin:0 auto;padding:0 16px}
+  .wrap{max-width:600px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
   .mono{font-family:'JetBrains Mono',monospace}
+
+  /* живой фон со вспышками света */
+  .bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .orb{position:absolute;border-radius:50%;filter:blur(70px);mix-blend-mode:screen;will-change:transform,opacity}
+  .orb.a{width:280px;height:280px;background:#1e7a45;top:-70px;left:-50px;animation:driftA 16s ease-in-out infinite, pulse 7s ease-in-out infinite}
+  .orb.b{width:230px;height:230px;background:#2ea35c;top:24%;right:-70px;animation:driftB 19s ease-in-out infinite, pulse 9s ease-in-out infinite .8s}
+  .orb.c{width:200px;height:200px;background:#13653a;bottom:14%;left:-60px;animation:driftC 22s ease-in-out infinite, pulse 8s ease-in-out infinite .4s}
+  .orb.d{width:160px;height:160px;background:#2ea35c;bottom:-50px;right:18%;animation:driftA 18s ease-in-out infinite 1.2s, pulse 6s ease-in-out infinite}
+  /* редкая яркая вспышка */
+  .flash{position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#5effa0,transparent 70%);filter:blur(30px);mix-blend-mode:screen;opacity:0}
+  .flash.f1{top:18%;left:30%;animation:flash 11s ease-in-out infinite 2s}
+  .flash.f2{top:60%;right:22%;animation:flash 13s ease-in-out infinite 7s}
+  .flash.f3{top:40%;left:55%;animation:flash 17s ease-in-out infinite 12s}
+  @keyframes pulse{0%,100%{opacity:.07}50%{opacity:.20}}
+  @keyframes driftA{0%,100%{transform:translate(0,0)}50%{transform:translate(46px,34px)}}
+  @keyframes driftB{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,40px)}}
+  @keyframes driftC{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-36px)}}
+  @keyframes flash{0%,90%,100%{opacity:0;transform:scale(.6)}94%{opacity:.5;transform:scale(1)}97%{opacity:.15;transform:scale(1.1)}}
+  @media(prefers-reduced-motion:reduce){.orb,.flash{animation:none}}
   h1,h2,h3,.u{font-family:'Unbounded',sans-serif}
 
+  /* top */
   .top{display:flex;align-items:center;padding:16px 2px 6px}
   .brand{font-family:'Unbounded';font-weight:900;font-size:20px;letter-spacing:-.3px}
   .brand .dot{color:var(--green2)}
@@ -31,6 +51,7 @@
 
   .sechead{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:18px 2px 12px}
 
+  /* restaurant cards */
   .rcard{background:var(--card);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .12s}
   .rcard:active{transform:scale(.985)}
   .rphoto{height:150px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
@@ -43,6 +64,7 @@
   .rmeta .st{color:var(--green2);font-weight:700}
   .rgo{margin-left:auto;color:var(--muted);font-size:22px}
 
+  /* restaurant page */
   .back{display:inline-flex;align-items:center;gap:7px;background:var(--card);padding:9px 15px;border-radius:999px;font-family:'JetBrains Mono';font-size:12px;color:#b9c2bc;margin:10px 0 4px}
   .rhead{margin:8px 0 14px}
   .rhead h2{margin:0;font-size:26px;letter-spacing:-.6px}
@@ -56,6 +78,7 @@
 
   .catsec h3{font-size:17px;letter-spacing:-.3px;margin:14px 2px 12px}
 
+  /* dish grid — big cards with photo + big button */
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:380px){.grid{grid-template-columns:1fr}}
   .dish{background:var(--card);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
@@ -72,6 +95,7 @@
   .bigstp button{width:46px;height:40px;border-radius:9px;background:rgba(0,0,0,.22);font-size:20px;font-weight:700}
   .bigstp span{font-family:'JetBrains Mono';font-weight:700;font-size:16px}
 
+  /* sheet */
   .sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;display:none}
   .sheet-bg.on{display:block}
   .sheet{position:fixed;left:0;right:0;bottom:0;z-index:101;background:#0e110e;border-radius:22px 22px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:.25s;max-width:600px;margin:0 auto}
@@ -111,6 +135,10 @@
 </style>
 </head>
 <body>
+<div class="bgfx" aria-hidden="true">
+  <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div><div class="orb d"></div>
+  <div class="flash f1"></div><div class="flash f2"></div><div class="flash f3"></div>
+</div>
 <div class="wrap">
   <div class="top">
     <div class="brand">SOC<span class="dot">°</span> delivery</div>
@@ -120,7 +148,7 @@
   <div id="home">
     <div class="hello">Что закажем <span>сегодня</span>?</div>
     <div class="helsub">Заведения Олёкминска · доставка 30–40 минут</div>
-    <div class="sechead">Заведения</div>
+    <div class="sechead">Заведения · порядок случайный 🔀</div>
     <div id="rlist"></div>
   </div>
 
@@ -226,8 +254,9 @@ function photo(img,cov,cls,init){
 }
 
 /* ---------------- HOME ---------------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function renderHome(){
-  $('rlist').innerHTML=STORES.map(s=>`
+  $('rlist').innerHTML=shuffle(STORES).map(s=>`
     <div class="rcard" onclick="openStore('${s.id}')">
       <div class="rphoto" style="${s.img?`background-image:url('${s.img}')`:`background:radial-gradient(120% 120% at 25% 15%, ${s.cov}, #0c0e0c)`}">
         ${s.img?'':`<div class="init">${letter(s.name)}</div>`}
