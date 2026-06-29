@@ -118,9 +118,13 @@
   .ministp span{font-family:'JetBrains Mono';font-weight:700;min-width:16px;text-align:center}
   .field{width:100%;padding:13px 14px;border-radius:13px;border:1px solid #2a2f2a;background:var(--card);color:#fff;font-size:15px;margin-bottom:10px;font-family:'Inter'}
   .field::placeholder{color:#646b64}
+  .seclbl{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 2px 10px}
+  .frow{display:flex;gap:8px}
+  .frow .field{flex:1;min-width:0}
   .pay{display:flex;gap:8px;margin-bottom:12px}
-  .pay button{flex:1;padding:12px;border-radius:13px;background:var(--card);border:1px solid #2a2f2a;font-weight:600;font-size:14px;color:#b9c2bc}
-  .pay button.on{border-color:var(--green2);color:#fff;background:#13251a}
+  .payb{flex:1;padding:14px 10px;border-radius:13px;font-weight:700;font-size:14px;transition:.15s;border:2px solid transparent;background:var(--card)}
+  .payb.on{background:#13251a;border-color:var(--green2);color:#fff}
+  .payb.off{color:#5a6560;opacity:.5}
   .summary{background:var(--card);border-radius:14px;padding:14px;margin-bottom:6px;font-family:'JetBrains Mono';font-size:13px}
   .summary .r{display:flex;justify-content:space-between;padding:4px 0;color:#b9c2bc}
   .summary .r.total{font-weight:700;font-size:17px;color:#fff;border-top:1px solid #262b26;margin-top:6px;padding-top:9px}
@@ -189,7 +193,7 @@ function haptic(t='light'){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.imp
 function notify(t='success'){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.notificationOccurred(t);}catch(e){} }
 
 /* ---------------- DATA ----------------
-   Чтобы заменить фото: положи файл в папку img/ в репозитории с тем же именем,
+   Чтобы заменить фото: загрузи файл в папку img/ с тем же именем,
    либо впиши свой путь в поле img, например img:'img/burger.jpg'.            */
 const STORES=[
  {id:'meced',  name:'Кафе «Месед»', tag:'Кавказская кухня',    rating:4.8, time:'30–40', min:500, cov:'#1a2c20', kw:'kebab,grill', lk:11, img:'img/store-meced.jpg'},
@@ -241,7 +245,7 @@ const FEE=149, FREE_FROM=1500;
 /* ---------------- STATE ---------------- */
 let curStore=null, curCat='all', cart={}, cartStore=null, sheetOpen=false, pay='cash';
 let form={}, formReady=false;
-function ensureForm(){ if(!formReady){ form={name:(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''), phone:'', addr:'Олёкминск, ', note:'', change:''}; formReady=true; } }
+function ensureForm(){ if(!formReady){ form={name:(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''), phone:'', street:'', house:'', apt:'', change:''}; formReady=true; } }
 function openChannel(){ const u='https://t.me/SocEvents'; haptic(); if(tg&&tg.openTelegramLink){tg.openTelegramLink(u);} else {window.open(u,'_blank');} }
 
 /* ---------------- HELPERS ---------------- */
@@ -343,18 +347,29 @@ function renderSheet(){
     :(sub<FREE_FROM?`<div class="hint" style="color:var(--muted)">До бесплатной доставки ${money(FREE_FROM-sub)}</div>`:'');
   $('sheet-title').textContent=st.name;
   $('sheet-body').innerHTML=`${items}${hint}
+    <div class="seclbl">Контакты</div>
     <input class="field" id="f-name" placeholder="Имя" value="${esc(form.name)}" oninput="form.name=this.value">
     <input class="field" id="f-phone" placeholder="Телефон" inputmode="tel" value="${esc(form.phone)}" oninput="form.phone=this.value">
-    <input class="field" id="f-addr" placeholder="Адрес доставки" value="${esc(form.addr)}" oninput="form.addr=this.value">
-    <input class="field" id="f-note" placeholder="Комментарий курьеру (необязательно)" value="${esc(form.note)}" oninput="form.note=this.value">
-    <div class="pay"><button class="${pay==='cash'?'on':''}" onclick="setPay('cash')">💵 Наличными</button>
-      <button class="${pay==='transfer'?'on':''}" onclick="setPay('transfer')">🔁 Переводом</button></div>
-    ${pay==='cash'?`<input class="field" id="f-change" placeholder="Сдача с какой суммы? (необязательно)" inputmode="numeric" value="${esc(form.change)}" oninput="form.change=this.value">`:''}
+    <input class="field" id="f-street" placeholder="Улица" value="${esc(form.street)}" oninput="form.street=this.value">
+    <div class="frow">
+      <input class="field" id="f-house" placeholder="Дом" value="${esc(form.house)}" oninput="form.house=this.value">
+      <input class="field" id="f-apt" placeholder="Кв. (необяз.)" value="${esc(form.apt)}" oninput="form.apt=this.value">
+    </div>
+    <div class="seclbl">Способ оплаты</div>
+    <div id="paysec">${payHTML()}</div>
     <div class="summary"><div class="r"><span>Блюда</span><span>${money(sub)}</span></div>
       <div class="r"><span>Доставка</span><span>${fee===0?'Бесплатно':money(fee)}</span></div>
       <div class="r total"><span>Итого</span><span>${money(sub+fee)}</span></div></div>`;
 }
-function setPay(p){haptic();pay=p;renderSheet();}
+// блок оплаты рисуется отдельно — переключение не трогает контакты
+function payHTML(){
+  return `<div class="pay">
+      <button class="payb ${pay==='cash'?'on':'off'}" onclick="setPay('cash')">💵 Наличные</button>
+      <button class="payb ${pay==='transfer'?'on':'off'}" onclick="setPay('transfer')">🔁 Переводом</button>
+    </div>
+    ${pay==='cash'?`<input class="field" id="f-change" placeholder="Сдача с какой суммы? (необязательно)" inputmode="numeric" value="${esc(form.change)}" oninput="form.change=this.value">`:''}`;
+}
+function setPay(p){haptic();pay=p;const ps=$('paysec');if(ps)ps.innerHTML=payHTML();}
 
 /* ---------------- NAV / MAIN BUTTON ---------------- */
 function mainAction(){ if(sheetOpen) placeOrder(); else openSheet(); }
@@ -379,13 +394,15 @@ function updateNav(){
 function placeOrder(){
   const st=storeOf(cartStore), sub=total();
   if(sub<st.min){toast('Добери до минимального заказа');notify('error');return;}
-  const name=($('f-name')?.value||'').trim(), phone=($('f-phone')?.value||'').trim(), addr=($('f-addr')?.value||'').trim();
-  if(!name||phone.length<5||addr.length<8){toast('Заполни имя, телефон и адрес');notify('error');return;}
+  const name=(form.name||'').trim(), phone=(form.phone||'').trim();
+  const street=(form.street||'').trim(), house=(form.house||'').trim(), apt=(form.apt||'').trim();
+  if(!name||phone.length<5||!street||!house){toast('Заполни имя, телефон, улицу и дом');notify('error');return;}
+  const addr='Олёкминск, ул. '+street+', д. '+house+(apt?', кв. '+apt:'');
   const fee=sub>=FREE_FROM?0:FEE;
   const change=(pay==='cash'?(form.change||'').trim():'');
   const order={type:'order', store:cartStore, store_name:st.name,
     items:Object.entries(cart).map(([id,q])=>({id:+id,name:prod(+id).n,qty:q,price:prod(+id).p})),
-    name, phone, addr, note:($('f-note')?.value||'').trim(), pay, change, subtotal:sub, fee, total:sub+fee};
+    name, phone, addr, note:'', pay, change, subtotal:sub, fee, total:sub+fee};
   notify('success');
   formReady=false;
   if(inTG && tg.sendData){ tg.sendData(JSON.stringify(order)); return; }
