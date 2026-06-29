@@ -1,0 +1,40 @@
+Какой файл = какое блюдо/заведение.
+Заменяй файл на своё фото с ТЕМ ЖЕ именем (формат .jpg).
+
+store-meced.jpg  —  заведение: Кафе «Месед»
+store-shur.jpg  —  заведение: ЩурБургер
+store-tochka.jpg  —  заведение: Точка
+store-shahri.jpg  —  заведение: Шахиризада
+dish-101-hinkal-darginskiy.jpg  —  Хинкал даргинский
+dish-102-chudu-s-myasom.jpg  —  Чуду с мясом
+dish-103-shashlyk-iz-baraniny.jpg  —  Шашлык из баранины
+dish-104-dolma.jpg  —  Долма
+dish-105-hash.jpg  —  Хаш
+dish-106-chihirtma.jpg  —  Чихиртма
+dish-107-ayran.jpg  —  Айран
+dish-108-kompot.jpg  —  Компот
+dish-201-schurburger.jpg  —  ЩурБургер
+dish-202-chizburger.jpg  —  Чизбургер
+dish-203-dvoynoy.jpg  —  Двойной
+dish-204-chikenburger.jpg  —  Чикенбургер
+dish-205-kartofel-fri.jpg  —  Картофель фри
+dish-206-naggetsy.jpg  —  Наггетсы
+dish-207-lukovye-kolca.jpg  —  Луковые кольца
+dish-208-limonad.jpg  —  Лимонад
+dish-209-milksheyk.jpg  —  Милкшейк
+dish-301-shaurma-klassik.jpg  —  Шаурма классик
+dish-302-shaurma-xl.jpg  —  Шаурма XL
+dish-303-shaurma-s-govyadinoy.jpg  —  Шаурма с говядиной
+dish-304-falafel.jpg  —  Фалафель
+dish-305-sendvich-s-kuricey.jpg  —  Сэндвич с курицей
+dish-306-hotdog.jpg  —  Хот-дог
+dish-307-kofe.jpg  —  Кофе
+dish-308-limonad.jpg  —  Лимонад
+dish-401-plov-uzbekskiy.jpg  —  Плов узбекский
+dish-402-lagman.jpg  —  Лагман
+dish-403-manty.jpg  —  Манты
+dish-404-samsa-s-myasom.jpg  —  Самса с мясом
+dish-405-samsa-s-tykvoy.jpg  —  Самса с тыквой
+dish-406-lepeshka.jpg  —  Лепёшка
+dish-407-chay-zelenyy.jpg  —  Чай зелёный
+dish-408-ayran.jpg  —  Айран
