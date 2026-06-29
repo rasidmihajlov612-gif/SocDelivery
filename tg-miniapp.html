@@ -54,17 +54,16 @@
 
   .sechead{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:18px 2px 12px}
 
-  /* restaurant grid — компактные плитки, всё на одном экране */
-  .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .rcard{background:var(--card);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .12s}
+  /* restaurant grid — крупные плитки, всё на одном экране */
+  .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .rcard{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .12s}
   .rcard:active{transform:scale(.97)}
-  .rphoto{height:84px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
-  .rphoto .fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.6))}
-  .rphoto .init{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:900;font-size:38px;color:rgba(255,255,255,.12)}
-  .rphoto .tag{position:relative;margin:0 0 7px 9px;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);color:#fff;font-family:'JetBrains Mono';font-size:9px;padding:3px 8px;border-radius:999px}
-  .rbody{padding:10px 11px 12px}
-  .rname{font-family:'Unbounded';font-weight:700;font-size:14px;letter-spacing:-.3px;line-height:1.15}
-  .rmeta{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);margin-top:5px;display:flex;gap:8px;flex-wrap:wrap}
+  .rphoto{height:130px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
+  .rphoto .fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.62))}
+  .rphoto .tag{position:relative;margin:0 0 9px 11px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:#fff;font-family:'JetBrains Mono';font-size:10px;padding:4px 9px;border-radius:999px}
+  .rbody{padding:12px 13px 14px}
+  .rname{font-family:'Unbounded';font-weight:700;font-size:16px;letter-spacing:-.3px;line-height:1.15}
+  .rmeta{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);margin-top:6px;display:flex;gap:10px;flex-wrap:wrap}
   .rmeta .st{color:var(--green2);font-weight:700}
 
   /* restaurant page */
@@ -87,6 +86,8 @@
   .dish{background:var(--card);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
   .dphoto{height:128px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center}
   .dphoto .init{font-family:'Unbounded';font-weight:900;font-size:40px;color:rgba(255,255,255,.08)}
+  .phinit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:900;color:rgba(255,255,255,.13);font-size:36px}
+  .phinit.big{font-size:54px}
   .dbody{padding:12px 13px 14px;display:flex;flex-direction:column;flex:1}
   .dn{font-size:14px;font-weight:600;line-height:1.25}
   .dd{font-size:12px;color:var(--muted);margin:3px 0 0;line-height:1.3;flex:1}
@@ -188,60 +189,59 @@ function haptic(t='light'){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.imp
 function notify(t='success'){ try{ if(tg&&tg.HapticFeedback) tg.HapticFeedback.notificationOccurred(t);}catch(e){} }
 
 /* ---------------- DATA ----------------
-   Чтобы добавить фото: положи файл в папку img/ в репозитории
-   и впиши путь в поле img, например img:'img/burger.jpg'.
-   Пока img пустой — показывается фирменная заглушка с буквой.            */
+   Чтобы заменить фото: положи файл в папку img/ в репозитории с тем же именем,
+   либо впиши свой путь в поле img, например img:'img/burger.jpg'.            */
 const STORES=[
- {id:'meced',  name:'Кафе «Месед»', tag:'Кавказская кухня',    rating:4.8, time:'30–40', min:500, cov:'#1a2c20', img:''},
- {id:'shur',   name:'ЩурБургер',    tag:'Бургеры',             rating:4.9, time:'25–35', min:500, cov:'#2c2113', img:''},
- {id:'tochka', name:'Точка',        tag:'Шаурма и стрит-фуд',  rating:4.7, time:'20–30', min:400, cov:'#2a1717', img:''},
- {id:'shahri', name:'Шахиризада',   tag:'Восточная кухня',     rating:4.8, time:'35–45', min:600, cov:'#231a2c', img:''},
+ {id:'meced',  name:'Кафе «Месед»', tag:'Кавказская кухня',    rating:4.8, time:'30–40', min:500, cov:'#1a2c20', kw:'kebab,grill', lk:11, img:'img/store-meced.jpg'},
+ {id:'shur',   name:'ЩурБургер',    tag:'Бургеры',             rating:4.9, time:'25–35', min:500, cov:'#2c2113', kw:'burger',      lk:12, img:'img/store-shur.jpg'},
+ {id:'tochka', name:'Точка',        tag:'Шаурма и стрит-фуд',  rating:4.7, time:'20–30', min:400, cov:'#2a1717', kw:'shawarma,streetfood', lk:13, img:'img/store-tochka.jpg'},
+ {id:'shahri', name:'Шахиризада',   tag:'Восточная кухня',     rating:4.8, time:'35–45', min:600, cov:'#231a2c', kw:'pilaf,rice',  lk:14, img:'img/store-shahri.jpg'},
 ];
 const PRODUCTS=[
  // Кафе «Месед»
- {id:101,s:'meced',c:'Горячее',n:'Хинкал даргинский',d:'с бараниной и чесночным соусом',w:'350 г',p:380,img:''},
- {id:102,s:'meced',c:'Горячее',n:'Чуду с мясом',d:'тонкая лепёшка с сочной начинкой',w:'200 г',p:160,img:''},
- {id:103,s:'meced',c:'Горячее',n:'Шашлык из баранины',d:'на углях',w:'250 г',p:520,img:''},
- {id:104,s:'meced',c:'Горячее',n:'Долма',d:'виноградные листья, мясо, рис',w:'200 г',p:340,img:''},
- {id:105,s:'meced',c:'Супы',n:'Хаш',d:'наваристый, по-кавказски',w:'400 мл',p:390,img:''},
- {id:106,s:'meced',c:'Супы',n:'Чихиртма',d:'куриный суп с зеленью',w:'350 мл',p:320,img:''},
- {id:107,s:'meced',c:'Напитки',n:'Айран',d:'',w:'300 мл',p:90,img:''},
- {id:108,s:'meced',c:'Напитки',n:'Компот',d:'из сухофруктов',w:'300 мл',p:80,img:''},
+ {id:101,s:'meced',c:'Горячее',n:'Хинкал даргинский',d:'с бараниной и чесночным соусом',w:'350 г',p:380,kw:'dumplings,meat',img:'img/dish-101-hinkal-darginskiy.jpg'},
+ {id:102,s:'meced',c:'Горячее',n:'Чуду с мясом',d:'тонкая лепёшка с сочной начинкой',w:'200 г',p:160,kw:'meat,pie',img:'img/dish-102-chudu-s-myasom.jpg'},
+ {id:103,s:'meced',c:'Горячее',n:'Шашлык из баранины',d:'на углях',w:'250 г',p:520,kw:'shashlik,kebab',img:'img/dish-103-shashlyk-iz-baraniny.jpg'},
+ {id:104,s:'meced',c:'Горячее',n:'Долма',d:'виноградные листья, мясо, рис',w:'200 г',p:340,kw:'dolma,food',img:'img/dish-104-dolma.jpg'},
+ {id:105,s:'meced',c:'Супы',n:'Хаш',d:'наваристый, по-кавказски',w:'400 мл',p:390,kw:'soup,broth',img:'img/dish-105-hash.jpg'},
+ {id:106,s:'meced',c:'Супы',n:'Чихиртма',d:'куриный суп с зеленью',w:'350 мл',p:320,kw:'chicken,soup',img:'img/dish-106-chihirtma.jpg'},
+ {id:107,s:'meced',c:'Напитки',n:'Айран',d:'',w:'300 мл',p:90,kw:'yogurt,drink',img:'img/dish-107-ayran.jpg'},
+ {id:108,s:'meced',c:'Напитки',n:'Компот',d:'из сухофруктов',w:'300 мл',p:80,kw:'fruit,drink',img:'img/dish-108-kompot.jpg'},
  // ЩурБургер
- {id:201,s:'shur',c:'Бургеры',n:'ЩурБургер',d:'фирменный, говядина на углях',w:'320 г',p:360,img:''},
- {id:202,s:'shur',c:'Бургеры',n:'Чизбургер',d:'двойной чеддер',w:'300 г',p:320,img:''},
- {id:203,s:'shur',c:'Бургеры',n:'Двойной',d:'две котлеты, двойной сыр',w:'440 г',p:480,img:''},
- {id:204,s:'shur',c:'Бургеры',n:'Чикенбургер',d:'хрустящая курица',w:'290 г',p:300,img:''},
- {id:205,s:'shur',c:'Закуски',n:'Картофель фри',d:'',w:'120 г',p:140,img:''},
- {id:206,s:'shur',c:'Закуски',n:'Наггетсы',d:'с соусом на выбор',w:'6 шт',p:190,img:''},
- {id:207,s:'shur',c:'Закуски',n:'Луковые кольца',d:'',w:'140 г',p:170,img:''},
- {id:208,s:'shur',c:'Напитки',n:'Лимонад',d:'домашний',w:'400 мл',p:130,img:''},
- {id:209,s:'shur',c:'Напитки',n:'Милкшейк',d:'',w:'400 мл',p:210,img:''},
+ {id:201,s:'shur',c:'Бургеры',n:'ЩурБургер',d:'фирменный, говядина на углях',w:'320 г',p:360,kw:'burger,beef',img:'img/dish-201-schurburger.jpg'},
+ {id:202,s:'shur',c:'Бургеры',n:'Чизбургер',d:'двойной чеддер',w:'300 г',p:320,kw:'cheeseburger',img:'img/dish-202-chizburger.jpg'},
+ {id:203,s:'shur',c:'Бургеры',n:'Двойной',d:'две котлеты, двойной сыр',w:'440 г',p:480,kw:'burger,bacon',img:'img/dish-203-dvoynoy.jpg'},
+ {id:204,s:'shur',c:'Бургеры',n:'Чикенбургер',d:'хрустящая курица',w:'290 г',p:300,kw:'chicken,burger',img:'img/dish-204-chikenburger.jpg'},
+ {id:205,s:'shur',c:'Закуски',n:'Картофель фри',d:'',w:'120 г',p:140,kw:'fries',img:'img/dish-205-kartofel-fri.jpg'},
+ {id:206,s:'shur',c:'Закуски',n:'Наггетсы',d:'с соусом на выбор',w:'6 шт',p:190,kw:'nuggets,chicken',img:'img/dish-206-naggetsy.jpg'},
+ {id:207,s:'shur',c:'Закуски',n:'Луковые кольца',d:'',w:'140 г',p:170,kw:'onion,rings',img:'img/dish-207-lukovye-kolca.jpg'},
+ {id:208,s:'shur',c:'Напитки',n:'Лимонад',d:'домашний',w:'400 мл',p:130,kw:'lemonade',img:'img/dish-208-limonad.jpg'},
+ {id:209,s:'shur',c:'Напитки',n:'Милкшейк',d:'',w:'400 мл',p:210,kw:'milkshake',img:'img/dish-209-milksheyk.jpg'},
  // Точка
- {id:301,s:'tochka',c:'Шаурма',n:'Шаурма классик',d:'курица, овощи, фирменный соус',w:'320 г',p:260,img:''},
- {id:302,s:'tochka',c:'Шаурма',n:'Шаурма XL',d:'двойная порция',w:'450 г',p:330,img:''},
- {id:303,s:'tochka',c:'Шаурма',n:'Шаурма с говядиной',d:'',w:'320 г',p:300,img:''},
- {id:304,s:'tochka',c:'Шаурма',n:'Фалафель',d:'веган',w:'300 г',p:240,img:''},
- {id:305,s:'tochka',c:'Сэндвичи',n:'Сэндвич с курицей',d:'',w:'220 г',p:220,img:''},
- {id:306,s:'tochka',c:'Сэндвичи',n:'Хот-дог',d:'',w:'180 г',p:160,img:''},
- {id:307,s:'tochka',c:'Напитки',n:'Кофе',d:'',w:'300 мл',p:150,img:''},
- {id:308,s:'tochka',c:'Напитки',n:'Лимонад',d:'',w:'400 мл',p:130,img:''},
+ {id:301,s:'tochka',c:'Шаурма',n:'Шаурма классик',d:'курица, овощи, фирменный соус',w:'320 г',p:260,kw:'shawarma,doner',img:'img/dish-301-shaurma-klassik.jpg'},
+ {id:302,s:'tochka',c:'Шаурма',n:'Шаурма XL',d:'двойная порция',w:'450 г',p:330,kw:'doner,kebab',img:'img/dish-302-shaurma-xl.jpg'},
+ {id:303,s:'tochka',c:'Шаурма',n:'Шаурма с говядиной',d:'',w:'320 г',p:300,kw:'shawarma,beef',img:'img/dish-303-shaurma-s-govyadinoy.jpg'},
+ {id:304,s:'tochka',c:'Шаурма',n:'Фалафель',d:'веган',w:'300 г',p:240,kw:'falafel',img:'img/dish-304-falafel.jpg'},
+ {id:305,s:'tochka',c:'Сэндвичи',n:'Сэндвич с курицей',d:'',w:'220 г',p:220,kw:'sandwich,chicken',img:'img/dish-305-sendvich-s-kuricey.jpg'},
+ {id:306,s:'tochka',c:'Сэндвичи',n:'Хот-дог',d:'',w:'180 г',p:160,kw:'hotdog',img:'img/dish-306-hotdog.jpg'},
+ {id:307,s:'tochka',c:'Напитки',n:'Кофе',d:'',w:'300 мл',p:150,kw:'coffee',img:'img/dish-307-kofe.jpg'},
+ {id:308,s:'tochka',c:'Напитки',n:'Лимонад',d:'',w:'400 мл',p:130,kw:'lemonade',img:'img/dish-308-limonad.jpg'},
  // Шахиризада
- {id:401,s:'shahri',c:'Плов и горячее',n:'Плов узбекский',d:'с бараниной',w:'350 г',p:340,img:''},
- {id:402,s:'shahri',c:'Плов и горячее',n:'Лагман',d:'ручная лапша',w:'400 г',p:360,img:''},
- {id:403,s:'shahri',c:'Плов и горячее',n:'Манты',d:'',w:'4 шт',p:300,img:''},
- {id:404,s:'shahri',c:'Выпечка',n:'Самса с мясом',d:'из тандыра',w:'1 шт',p:120,img:''},
- {id:405,s:'shahri',c:'Выпечка',n:'Самса с тыквой',d:'',w:'1 шт',p:110,img:''},
- {id:406,s:'shahri',c:'Выпечка',n:'Лепёшка',d:'тандырная',w:'1 шт',p:60,img:''},
- {id:407,s:'shahri',c:'Напитки',n:'Чай зелёный',d:'чайник',w:'600 мл',p:150,img:''},
- {id:408,s:'shahri',c:'Напитки',n:'Айран',d:'',w:'300 мл',p:90,img:''},
+ {id:401,s:'shahri',c:'Плов и горячее',n:'Плов узбекский',d:'с бараниной',w:'350 г',p:340,kw:'pilaf,rice',img:'img/dish-401-plov-uzbekskiy.jpg'},
+ {id:402,s:'shahri',c:'Плов и горячее',n:'Лагман',d:'ручная лапша',w:'400 г',p:360,kw:'noodles,asian',img:'img/dish-402-lagman.jpg'},
+ {id:403,s:'shahri',c:'Плов и горячее',n:'Манты',d:'',w:'4 шт',p:300,kw:'dumplings,manti',img:'img/dish-403-manty.jpg'},
+ {id:404,s:'shahri',c:'Выпечка',n:'Самса с мясом',d:'из тандыра',w:'1 шт',p:120,kw:'samosa,pastry',img:'img/dish-404-samsa-s-myasom.jpg'},
+ {id:405,s:'shahri',c:'Выпечка',n:'Самса с тыквой',d:'',w:'1 шт',p:110,kw:'pumpkin,pastry',img:'img/dish-405-samsa-s-tykvoy.jpg'},
+ {id:406,s:'shahri',c:'Выпечка',n:'Лепёшка',d:'тандырная',w:'1 шт',p:60,kw:'flatbread,bread',img:'img/dish-406-lepeshka.jpg'},
+ {id:407,s:'shahri',c:'Напитки',n:'Чай зелёный',d:'чайник',w:'600 мл',p:150,kw:'green,tea',img:'img/dish-407-chay-zelenyy.jpg'},
+ {id:408,s:'shahri',c:'Напитки',n:'Айран',d:'',w:'300 мл',p:90,kw:'yogurt,drink',img:'img/dish-408-ayran.jpg'},
 ];
 const FEE=149, FREE_FROM=1500;
 
 /* ---------------- STATE ---------------- */
-let curStore=null, curCat='all', cart={}, cartStore=null, sheetOpen=false, pay='card';
+let curStore=null, curCat='all', cart={}, cartStore=null, sheetOpen=false, pay='cash';
 let form={}, formReady=false;
-function ensureForm(){ if(!formReady){ form={name:(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''), phone:'', addr:'Олёкминск, ', note:''}; formReady=true; } }
+function ensureForm(){ if(!formReady){ form={name:(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.first_name||'':''), phone:'', addr:'Олёкминск, ', note:'', change:''}; formReady=true; } }
 function openChannel(){ const u='https://t.me/SocEvents'; haptic(); if(tg&&tg.openTelegramLink){tg.openTelegramLink(u);} else {window.open(u,'_blank');} }
 
 /* ---------------- HELPERS ---------------- */
@@ -255,17 +255,21 @@ const letter=s=>(s||'?').trim().replace(/[«"]/g,'').charAt(0).toUpperCase();
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
 function toast(t){const e=$('toast');e.innerHTML=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2200);}
 function confirmSwap(msg,cb){ if(tg&&tg.showConfirm){tg.showConfirm(msg,ok=>{if(ok)cb();});} else { if(confirm(msg))cb(); } }
-function photo(img,cov,cls,init){
-  if(img) return `<div class="${cls}" style="background-image:url('${img}')"></div>`;
-  return `<div class="${cls}" style="background:radial-gradient(120% 120% at 30% 20%, ${cov}, #0c0e0c)"><span class="init">${init}</span></div>`;
+function storeImg(s){ return s.img || ''; }
+function dishImg(p){ return p.img || ''; }
+function photoStyle(url,cov){
+  const grad=`radial-gradient(120% 120% at 30% 20%, ${cov}, #0c0e0c)`;
+  return url
+    ? `background-image:url('${url}'), ${grad};background-size:cover;background-position:center`
+    : `background:${grad}`;
 }
 
 /* ---------------- HOME ---------------- */
 function renderHome(){
   $('rlist').innerHTML=STORES.map(s=>`
     <div class="rcard" onclick="openStore('${s.id}')">
-      <div class="rphoto" style="${s.img?`background-image:url('${s.img}')`:`background:radial-gradient(120% 120% at 25% 15%, ${s.cov}, #0c0e0c)`}">
-        ${s.img?'':`<div class="init">${letter(s.name)}</div>`}
+      <div class="rphoto" style="${photoStyle(storeImg(s),s.cov)}">
+        ${storeImg(s)?'':`<span class="phinit big">${letter(s.name)}</span>`}
         <div class="fade"></div>
         <div class="tag">${s.tag}</div>
       </div>
@@ -305,7 +309,7 @@ function dishCard(p){
     ? `<div class="bigstp"><button onclick="chg(${p.id},-1)">−</button><span>${q} шт</span><button onclick="chg(${p.id},1)">+</button></div>`
     : `<button class="addbig" onclick="chg(${p.id},1)">＋ ${money(p.p)}</button>`;
   return `<div class="dish">
-    ${photo(p.img,cov,'dphoto',letter(p.n))}
+    <div class="dphoto" style="${photoStyle(dishImg(p),cov)}">${dishImg(p)?'':`<span class="phinit">${letter(p.n)}</span>`}</div>
     <div class="dbody">
       <div class="dn">${p.n}</div>
       <div class="dd">${p.d||''}</div>
@@ -331,8 +335,7 @@ function renderSheet(){
   if(cnt()===0){closeSheet();return;}
   const st=storeOf(cartStore);
   const items=Object.entries(cart).map(([id,q])=>{const p=prod(+id);const cov=storeOf(p.s).cov;
-    const lph=p.img?`style="background-image:url('${p.img}')"`:`style="background:radial-gradient(120% 120% at 30% 20%, ${cov}, #0c0e0c)"`;
-    return `<div class="li"><div class="lph" ${lph}>${p.img?'':letter(p.n)}</div>
+    return `<div class="li"><div class="lph" style="${photoStyle(dishImg(p),cov)}"></div>
       <div class="info"><div class="n">${p.n}</div><div class="p">${money(p.p)} · ${p.w}</div></div>
       <div class="ministp"><button onclick="chg(${p.id},-1)">−</button><span>${q}</span><button onclick="chg(${p.id},1)">+</button></div></div>`;}).join('');
   const sub=total(), fee=sub>=FREE_FROM?0:FEE, belowMin=sub<st.min;
@@ -344,8 +347,9 @@ function renderSheet(){
     <input class="field" id="f-phone" placeholder="Телефон" inputmode="tel" value="${esc(form.phone)}" oninput="form.phone=this.value">
     <input class="field" id="f-addr" placeholder="Адрес доставки" value="${esc(form.addr)}" oninput="form.addr=this.value">
     <input class="field" id="f-note" placeholder="Комментарий курьеру (необязательно)" value="${esc(form.note)}" oninput="form.note=this.value">
-    <div class="pay"><button class="${pay==='card'?'on':''}" onclick="setPay('card')">💳 Картой</button>
-      <button class="${pay==='cash'?'on':''}" onclick="setPay('cash')">💵 Наличными</button></div>
+    <div class="pay"><button class="${pay==='cash'?'on':''}" onclick="setPay('cash')">💵 Наличными</button>
+      <button class="${pay==='transfer'?'on':''}" onclick="setPay('transfer')">🔁 Переводом</button></div>
+    ${pay==='cash'?`<input class="field" id="f-change" placeholder="Сдача с какой суммы? (необязательно)" inputmode="numeric" value="${esc(form.change)}" oninput="form.change=this.value">`:''}
     <div class="summary"><div class="r"><span>Блюда</span><span>${money(sub)}</span></div>
       <div class="r"><span>Доставка</span><span>${fee===0?'Бесплатно':money(fee)}</span></div>
       <div class="r total"><span>Итого</span><span>${money(sub+fee)}</span></div></div>`;
@@ -378,9 +382,10 @@ function placeOrder(){
   const name=($('f-name')?.value||'').trim(), phone=($('f-phone')?.value||'').trim(), addr=($('f-addr')?.value||'').trim();
   if(!name||phone.length<5||addr.length<8){toast('Заполни имя, телефон и адрес');notify('error');return;}
   const fee=sub>=FREE_FROM?0:FEE;
+  const change=(pay==='cash'?(form.change||'').trim():'');
   const order={type:'order', store:cartStore, store_name:st.name,
     items:Object.entries(cart).map(([id,q])=>({id:+id,name:prod(+id).n,qty:q,price:prod(+id).p})),
-    name, phone, addr, note:($('f-note')?.value||'').trim(), pay, subtotal:sub, fee, total:sub+fee};
+    name, phone, addr, note:($('f-note')?.value||'').trim(), pay, change, subtotal:sub, fee, total:sub+fee};
   notify('success');
   formReady=false;
   if(inTG && tg.sendData){ tg.sendData(JSON.stringify(order)); return; }
